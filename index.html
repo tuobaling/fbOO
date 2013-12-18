@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta property="og:title" content="這只是測試FB分享" />
+    <meta property="og:description" content="這只是測試" />
+    <title></title>
+    <script src="Scripts/jquery-2.0.3.js"></script>
+    <script src="http://connect.facebook.net/zh_TW/all.js" type="text/javascript"></script>
+    <script>
+        var fb_appid = '217180485131514';
+        var fb_scope = 'email,publish_stream,user_photos,user_birthday,read_friendlists,friends_photos';
+        var fb_channel = location.pathname;
+    </script>
+    <script src="fbapi.js"></script>
+    <script>
+        $(function () {
+            var fbobj = new fbObj();
+            fbobj.fbLoginClick();
+            $('#fbRegister').click(function () {
+                fbobj.fbLoginClick();
+            })
+            $('#Button1').click(function () {
+                fbobj.fbLogoutClick();
+            })
+            $('#Button5').click(function () {
+                shareData.message = "訊息";
+                shareData.picture = "http://www.allenj.net/a.jpg";
+                shareData.link = "http://www.allenj.net";
+                shareData.name = "Allen J";
+                shareData.caption = "www.allenj.net";
+                shareData.description = "Allen J Blog";
+                fbobj.fbPushClick();
+            })
+            $('#Button4').click(function () {
+                fbobj.fbShareClick(location.href);
+            })
+            $('#Button2').click(function () {
+                fbobj.fbAlbumClick();
+            })
+            $('#Button6').click(function () {
+                fbobj.fbFredClick();
+            })
+
+            $('#Button7').click(function () {
+                sharePhoto.name = '照片名稱--QQ cat';
+                sharePhoto.no_story = '0';
+                sharePhoto.url = 'http://static.ettoday.net/images/347/d347373.jpg';
+                fbobj.fbPhotoClick();
+            })
+
+        });
+    </script>
+</head>
+<body>
+    <div>
+        <div>
+            <input id="fbRegister" type="button" value="登入FB" />
+            <input id="Button1" type="button" value="登出FB" />
+        </div>
+        <div>
+            <input id="Button3" type="button" value="java物件" />
+        </div>
+        <div>
+            <input id="Button4" type="button" value="FB_Share" />
+        </div>
+        <div>
+            <input id="Button5" type="button" value="發塗鴨牆" />
+        </div>
+        <div>
+            <input id="Button2" type="button" value="取得相本" />
+        </div>
+        <div>
+            <input id="Button6" type="button" value="取得好友" />
+        </div>
+        <div>
+            <input id="Button7" type="button" value="上傳照片" />
+        </div>
+        <div class="image"></div>
+        <div class="friendList" style="width: 800px;"></div>
+
+
+        <div id="fb-root"></div>
+    </div>
+</body>
+</html>
