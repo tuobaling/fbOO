@@ -6,15 +6,15 @@
     <meta property="og:description" content="這只是測試" />
     <title></title>
     <script src="Scripts/jquery-2.0.3.js"></script>
-    <script src="http://connect.facebook.net/zh_TW/all.js" type="text/javascript"></script>
     <script>
         var fb_appid = '217180485131514';
         var fb_scope = 'email,publish_stream,user_photos,user_birthday,read_friendlists,friends_photos';
         var fb_channel = location.pathname;
     </script>
-    <script src="fbapi.js"></script>
+    <script src="Scripts/fbapi.js"></script>
     <script>
-        $(function () {
+        //$(function () {
+        window.onload = function () {
             var fbobj = new fbObj();
             fbobj.fbLoginClick();
             $('#fbRegister').click(function () {
@@ -48,8 +48,8 @@
                 sharePhoto.url = 'http://static.ettoday.net/images/347/d347373.jpg';
                 fbobj.fbPhotoClick();
             })
-
-        });
+        };
+        //});
     </script>
 </head>
 <body>
