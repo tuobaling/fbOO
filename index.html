@@ -4,8 +4,10 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta property="og:title" content="這只是測試FB分享" />
     <meta property="og:description" content="這只是測試" />
-    <title></title>
+<title></title>
     <script src="Scripts/jquery-2.0.3.js"></script>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
     <script>
         var fb_appid = '217180485131514';
         var fb_scope = 'email,publish_stream,user_photos,user_birthday,read_friendlists,friends_photos';
@@ -13,23 +15,55 @@
     </script>
     <script src="Scripts/fbapi.js"></script>
     <script>
-        //$(function () {
+        var fbobj;
         window.onload = function () {
-            var fbobj = new fbObj();
+            fbobj = new fbObj();
             fbobj.fbLoginClick();
+            $(".friendList").dialog({
+                autoOpen: false,
+                width: 800,
+                height: 500,
+                modal: true,
+                buttons: {
+                    Ok: function () {
+                        fbobj.sendData.method = 'send';
+                        fbobj.sendData.message = 'My Great Request,其實這是測試=   =';
+                        fbobj.sendData.to = fbobj.fredID[1];
+                        fbobj.sendData.link = 'http://kerwinche.diandian.com/';
+                        fbobj.sendData.picture = '';
+                        fbobj.sendData.name = '思考原動力';
+                        fbobj.sendData.description = '測試、測試啦！';
+                        fbobj.sendListClick();
+                    }
+                },
+                close: function () {
+                    location.reload();
+                }
+            });
+            $(".image").dialog({
+                autoOpen: false,
+                width: 800,
+                height: 500,
+                modal: true,
+                close: function () {
+                    location.reload();
+                }
+            });
             $('#fbRegister').click(function () {
                 fbobj.fbLoginClick();
+                //console.log(userData);
+                //callbacktest(fbGetUserData);
             })
             $('#Button1').click(function () {
-                fbobj.fbLogoutClick();
+                fbobj.fbLogoutClick(); //fbGetUserData
             })
             $('#Button5').click(function () {
-                shareData.message = "訊息";
-                shareData.picture = "http://www.allenj.net/a.jpg";
-                shareData.link = "http://www.allenj.net";
-                shareData.name = "Allen J";
-                shareData.caption = "www.allenj.net";
-                shareData.description = "Allen J Blog";
+                fbobj.shareData.message = "訊息";
+                fbobj.shareData.picture = "http://www.allenj.net/a.jpg";
+                fbobj.shareData.link = "http://www.allenj.net";
+                fbobj.shareData.name = "Allen J";
+                fbobj.shareData.caption = "www.allenj.net";
+                fbobj.shareData.description = "Allen J Blog";
                 fbobj.fbPushClick();
             })
             $('#Button4').click(function () {
@@ -37,50 +71,65 @@
             })
             $('#Button2').click(function () {
                 fbobj.fbAlbumClick();
+                $(".image").dialog('open');
             })
             $('#Button6').click(function () {
                 fbobj.fbFredClick();
+                $(".friendList").dialog('open');
             })
-
             $('#Button7').click(function () {
-                sharePhoto.name = '照片名稱--QQ cat';
-                sharePhoto.no_story = '0';
-                sharePhoto.url = 'http://static.ettoday.net/images/347/d347373.jpg';
+                fbobj.sharePhoto.name = '照片名稱';
+                fbobj.sharePhoto.message = '好像老鼠愛大米~照片描述';
+                fbobj.sharePhoto.no_story = '0';
+                //sharePhoto.access_token = _fbaccesstoken;
+                fbobj.sharePhoto.url = 'http://static.ettoday.net/images/347/d347373.jpg';
                 fbobj.fbPhotoClick();
             })
         };
-        //});
+        var selectPhoto = function (response) {
+            fbpushstr = confirm("您確定要發布嗎？")
+            if (fbpushstr) {
+                var s = response.data.photolink;
+                fbobj.shareData.message = "訊息";
+                fbobj.shareData.picture = s;
+                fbobj.shareData.link = "http://www.allenj.net";
+                fbobj.shareData.name = "Allen J";
+                fbobj.shareData.caption = "www.allenj.net";
+                fbobj.shareData.description = "Allen J Blog";
+                fbobj.fbPushClick();
+            }
+        }
     </script>
 </head>
 <body>
-    <div>
-        <div>
-            <input id="fbRegister" type="button" value="登入FB" />
-            <input id="Button1" type="button" value="登出FB" />
-        </div>
-        <div>
-            <input id="Button3" type="button" value="java物件" />
-        </div>
-        <div>
-            <input id="Button4" type="button" value="FB_Share" />
-        </div>
-        <div>
-            <input id="Button5" type="button" value="發塗鴨牆" />
-        </div>
-        <div>
-            <input id="Button2" type="button" value="取得相本" />
-        </div>
-        <div>
-            <input id="Button6" type="button" value="取得好友" />
-        </div>
-        <div>
-            <input id="Button7" type="button" value="上傳照片" />
-        </div>
-        <div class="image"></div>
-        <div class="friendList" style="width: 800px;"></div>
+      <div class="content">
+            <%--<fb:login-button perms="email,user_photos" size="large" length="long">Login with Facebook</fb:login-button>--%>
+            <div>
+                <asp:Button ID="fbRegister" runat="server" Text="登入FB" OnClientClick="return false;" />
+                <asp:Button ID="Button1" runat="server" Text="登出FB" OnClientClick="return false;" />
+            </div>
+            <div>
+                <asp:Button ID="Button3" runat="server" Text="java物件" CssClass="test" OnClientClick="return false;" />
+            </div>
+            <div>
+                <asp:Button ID="Button4" runat="server" Text="FB_Share" OnClientClick="return false;" />
+            </div>
+            <div>
+                <asp:Button ID="Button5" runat="server" Text="發塗鴨牆" OnClientClick="return false;" />
+            </div>
+            <div>
+                <asp:Button ID="Button2" runat="server" Text="取得相本" OnClientClick="return false;" />
+            </div>
+            <div>
+                <asp:Button ID="Button6" runat="server" Text="取得好友" OnClientClick="return false;" />
+            </div>
+            <div>
+                <asp:Button ID="Button7" runat="server" Text="上傳照片" OnClientClick="return false;" />
+            </div>
+            <div class="image"></div>
 
-
-        <div id="fb-root"></div>
-    </div>
+            <div style="width: 800px; display: none;" class="friendList" title="請選擇一位想分享給他的朋友"></div>
+            <div id="fb-root"></div>
+        </div>
 </body>
 </html>
